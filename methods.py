@@ -1,15 +1,16 @@
 import socketserver
 import socket
 import json
-import ssl
 from db import session, user
 from threading import Thread
 from queue import Queue
+from log_config import log
 
 socks = {}
 names = []
 
 
+@log('Server loop')
 class TCPHandler(socketserver.BaseRequestHandler):
 
     def handle(self):
@@ -78,6 +79,7 @@ class TCPHandler(socketserver.BaseRequestHandler):
                 print('Ответ отправлен')
 
 
+@log('Client loop')
 class ClientClass:
 
     def __init__(self, ip, port):
@@ -117,6 +119,7 @@ class ClientClass:
             print(result['error'])
 
 
+@log('Message sending')
 class JIMMessage(ClientClass):
 
     def send_msg(self):
